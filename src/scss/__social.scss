@@ -1,0 +1,130 @@
+/*VARS*/
+$font-stack: "Montserrat";
+$font-bold: "900";
+$primary-color: #b2e3ef;
+$secondary-color: #eee;
+$bg-white: #fff;
+
+/*MIXINS*/
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+/************************************
+
+ * Social Buttons
+
+************************************/
+
+.social-buttons {
+    position: relative;
+    height: 50px;
+    font-size: 10;
+    text-align: left;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+
+.social-button {
+    background: #000;
+    -web-background: #000;
+    -ms-background: #000;
+    padding: 8px;
+    margin-left: 0 !important;
+    margin-right: 15px !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0.99;
+    border-radius: 50%;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.06);
+    -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+    transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    &:before {
+        content: "";
+        width: 120%;
+        height: 120%;
+        position: absolute;
+        top: -20%;
+        left: -10%;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.79);
+        transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.79);
+    }
+    .fa {
+        color: #fff !important;
+        font-size: 24px;
+        vertical-align: middle;
+        -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        transform: scale(0.9);
+        -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+        transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+    }
+
+ 
+    &:hover {
+        &:before {
+            top: -10%;
+            left: -10%;
+        }
+        .fa {
+            color: #fff;
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+        }
+    }
+    &:focus {
+        opacity: 0.85;
+    }
+}
+
+:focus {
+    outline: none;
+}
+
+.social-button {
+    
+    cursor: pointer;
+    box-shadow: 0 0 0 rgb(255, 255, 255);
+    -ms-box-shadow: 0 0 0 rgb(255, 255, 255);
+    -web-box-shadow: 0 0 0 rgb(255, 255, 255);
+    animation: pulse 2s infinite;
+}
+.social-button:hover {
+    animation: none;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(253, 253, 253, 0.4);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(44, 161, 204, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(44, 161, 204, 0);
+    }
+}
+@keyframes pulse {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(253, 253, 253, 0.4);
+        box-shadow: 0 0 0 0 rgba(253, 253, 253, 0.4);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(44, 161, 204, 0);
+        box-shadow: 0 0 0 10px rgba(44, 161, 204, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(44, 161, 204, 0);
+        box-shadow: 0 0 0 0 rgba(44, 161, 204, 0);
+    }
+}

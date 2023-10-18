@@ -48,17 +48,10 @@ export default function SignInSide() {
                     xs={false}
                     sm={4}
                     md={7}
-                    sx={{
-                        backgroundImage: `url(${bgImg})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[10] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                    className='flex items-center justify-center'
+                    className='overflow-hidden relative flex justify-center items-center'
                 > 
-                <h1 className='text-5xl font-semibold text-emerald-700 text-center hidden md:block'>Elektron Kutubxona</h1>
+                <img src={bgImg} alt="tatu bg" className='opacity-60 absolute left-0 top-0 bottom-0 w-100 h-100'/>
+                <h1 className='text-6xl font-semibold text-white text-center hidden md:block relative z-40'>Elektron Kutubxona</h1>
                 </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square >
                     <Box

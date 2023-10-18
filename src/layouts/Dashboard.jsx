@@ -1,28 +1,14 @@
 
-import Typography from '@mui/material/Typography';
 
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
+
 import Orders from '../components/Orders';
-import Link from '@mui/material/Link';
 
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://tolipovjs.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const Dashboard2 = () => {
     return (
@@ -52,7 +38,7 @@ const Dashboard2 = () => {
                                 height: 240,
                             }}
                         >
-                            <Deposits />
+                            <h1>hello</h1>
                         </Paper>
                     </Grid>
                     {/* Recent Orders */}
@@ -62,7 +48,6 @@ const Dashboard2 = () => {
                         </Paper>
                     </Grid>
                 </Grid>
-                <Copyright sx={{ pt: 4 }} />
             </Container>
         </>
     )

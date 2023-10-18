@@ -1,14 +1,20 @@
 import { useRoutes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 // pages 
-import Dashbord from "./pages/Home"
+import HomePage from './pages/Home';
+import Dashbord from "./pages/User"
 import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
 import NotFound from './pages/NotFound';
+import LibraryPage from "./pages/Library"
+import Test from "./pages/Test"
 function App() {
 
   const routes = useRoutes([
-    { path: '/', element: <Dashbord /> },
+    { path: '/', element: <HomePage /> },
+    { path: '/test', element: <Test /> },
+    { path: '/library', element: <LibraryPage /> },
+    { path: '/admin', element: <Dashbord /> },
     { path: '/signup', element: <SignUp /> },
     { path: '/signin', element: <SignIn /> },
     // any other
@@ -17,11 +23,11 @@ function App() {
 
 
   return (
-  
+
     <div className="">
-    {/* <Navbar /> */}
+      {/* <Navbar /> */}
       {routes}
-    {/* <Footer /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
