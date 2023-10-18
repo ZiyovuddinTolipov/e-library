@@ -24,9 +24,6 @@ import { Link } from 'react-router-dom';
 import { ToastContainer } from "react-toastify"
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';

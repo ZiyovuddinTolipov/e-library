@@ -1,133 +1,84 @@
-import  { useState, useEffect } from "react";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Skeleton from '@mui/material/Skeleton';
 
-function App() {
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [items, setItems] = useState([]);
-    const [q, setQ] = useState("");
-    const [searchParam] = useState(["capital", "name", "numericCode"]);
-    const [filterParam, setFilterParam] = useState(["Africa"]);
+const data = [
+    {
+        src: 'https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ',
+        title: 'Don Diablo @ Tomorrowland Main Stage 2019 | Official…',
+        channel: 'Don Diablo',
+        views: '396k views',
+        createdAt: 'a week ago',
+    },
+    {
+        src: 'https://i.ytimg.com/vi/_Uu12zY01ts/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCpX6Jan2rxrCAZxJYDXppTP4MoQA',
+        title: 'Queen - Greatest Hits',
+        channel: 'Queen Official',
+        views: '40M views',
+        createdAt: '3 years ago',
+    },
+    {
+        src: 'https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw',
+        title: 'Calvin Harris, Sam Smith - Promises (Official Video)',
+        channel: 'Calvin Harris',
+        views: '130M views',
+        createdAt: '10 months ago',
+    },
+];
 
-    useEffect(() => {
-        fetch(
-            "https://raw.githubusercontent.com/iamspruce/search-filter-painate-reactjs/main/data/countries.json"
-        )
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setItems(result);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            );
-    }, []);
+function Media(props) {
+    const { loading = false } = props;
 
-    const data = Object.values(items);
-
-    function search(items) {
-        return items.filter((item) => {
-            if (item.region == filterParam) {
-                return searchParam.some((newItem) => {
-                    return (
-                        item[newItem]
-                            .toString()
-                            .toLowerCase()
-                            .indexOf(q.toLowerCase()) > -1
-                    );
-                });
-            } else if (filterParam == "All") {
-                return searchParam.some((newItem) => {
-                    return (
-                        item[newItem]
-                            .toString()
-                            .toLowerCase()
-                            .indexOf(q.toLowerCase()) > -1
-                    );
-                });
-            }
-        });
-    }
-
-    if (error) {
-        return (
-            <p>
-                {error.message}, if you get this error, the free API I used
-                might have stopped working, but I created a simple example that
-                demonstrate how this works,{" "}
-    
-                    {" "}
-                    check it out{" "}
-            </p>
-        );
-    } else if (!isLoaded) {
-        return <>loading...</>;
-    } else {
-        return (
-            <div className="wrapper">
-                <div className="search-wrapper">
-                    <label htmlFor="search-form">
-                        <input
-                            type="search"
-                            name="search-form"
-                            id="search-form"
-                            className="search-input"
-                            placeholder="Search for..."
-                            value={q}
-                            onChange={(e) => setQ(e.target.value)}
+    return (
+        <Grid container wrap="nowrap">
+            {(loading ? Array.from(new Array(3)) : data).map((item, index) => (
+                <Box key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }}>
+                    {item ? (
+                        <img
+                            style={{ width: 210, height: 118 }}
+                            alt={item.title}
+                            src={item.src}
                         />
-                        <span className="sr-only">Search countries here</span>
-                    </label>
+                    ) : (
+                        <Skeleton variant="rectangular" width={210} height={118} />
+                    )}
 
-                    <div className="select">
-                        <select
-                            onChange={(e) => {
-                                setFilterParam(e.target.value);
-                            }}
-                            className="custom-select"
-                            aria-label="Filter Countries By Region"
-                        >
-                            <option value="Africa">Africa</option>
-                            <option value="Americas">America</option>
-                        </select>
-                        <span className="focus"></span>
-                    </div>
-                </div>
-                <ul className="card-grid">
-                    {search(data).map((item) => (
-                        <li key={item.name}>
-                            <article className="card" key={item.alpha3Code}>
-                                <div className="card-image">
-                                    <img
-                                        src={item.flag.large}
-                                        alt={item.name}
-                                    />
-                                </div>
-                                <div className="card-content">
-                                    <h2 className="card-name">{item.name}</h2>
-                                    <ol className="card-list">
-                                        <li>
-                                            population:{" "}
-                                            <span>{item.population}</span>
-                                        </li>
-                                        <li>
-                                            Region: <span>{item.region}</span>
-                                        </li>
-                                        <li>
-                                            Capital: <span>{item.capital}</span>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </article>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
+                    {item ? (
+                        <Box sx={{ pr: 2 }}>
+                            <Typography gutterBottom variant="body2">
+                                {item.title}
+                            </Typography>
+                            <Typography display="block" variant="caption" color="text.secondary">
+                                {item.channel}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary">
+                                {`${item.views} • ${item.createdAt}`}
+                            </Typography>
+                        </Box>
+                    ) : (
+                        <Box sx={{ pt: 0.5 }}>
+                            <Skeleton />
+                            <Skeleton width="60%" />
+                        </Box>
+                    )}
+                </Box>
+            ))}
+        </Grid>
+    );
 }
 
+Media.propTypes = {
+    loading: PropTypes.bool,
+};
 
-export default App;
+export default function YouTube() {
+    return (
+        <Box sx={{ overflow: 'hidden' }}>
+            <Media loading />
+            <Media />
+        </Box>
+    );
+}

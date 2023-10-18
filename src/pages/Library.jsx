@@ -1,5 +1,7 @@
 import Books from '../components/library/Books'
 import Hero from '../components/library/Hero'
+import Navbar from "../components/Navbar"
+
 
 const Page = () => {
   const style = {
@@ -8,7 +10,8 @@ const Page = () => {
   localStorage.setItem('token','')  
   return (
     <main className={style.container}>
-      <h1 className='text-[#fff]  text-center text-6xl font-semibold mt-10'>SAMTUIT  <span className='text-[#00ffcb]'>ONLINE</span> KUTUBXONASI</h1>
+      <Navbar />
+      <h1 className='text-[#fff]  text-center text-4xl font-semibold mt-10'>SAMTUIT  <span className='text-[#00ffcb]'>ONLINE</span> KUTUBXONASI</h1>
     <Hero />
     <Books />
     <h2 className='overflow-y-auto'></h2>

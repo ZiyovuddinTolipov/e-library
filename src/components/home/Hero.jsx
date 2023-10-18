@@ -4,9 +4,8 @@ import instagramLogo from "../../assets/instagram.svg"
 import telegramLogo from "../../assets/telegram.svg"
 import xLogo from "../../assets/xcom.svg"
 import homeLogo from "../../assets/facebook.svg"
-import logo from "../../assets/logo.png"
-import { Link } from 'react-router-dom'
 
+import Navbar from "../Navbar"
 
 const Hero = () => {
     const style = {
@@ -19,17 +18,7 @@ const Hero = () => {
     }
     return (
         <section className={style.container}>
-            <nav className='w-full max-w-[1600px]  px-5 md:px-16 flex justify-between items-center mt-4'>
-                <Link to="/" className='flex items-center gap-4'>
-                    <img src={logo} alt="logo in samtuit" width={70} />
-                    <h1 className='text-white text-xl sm:text-5xl 2xl:text-6x font-semibold'>SAMTUIT Library</h1>
-                </Link>
-                <ul className="flex  gap-3 text-xl font-[500]">
-                    <Link to="/library" className={style.navLink}>Kutubxona</Link>
-                    <Link to="/library" className={style.navLink}>Kitob Almashish</Link>
-                    <Link to='/signin' className={style.navLink}>Login</Link>
-                </ul>
-            </nav>
+            <Navbar />
             <div className="flex  md:flex-row h-auto md:h-[500px] xl:h-[70vh] hero__content w-full flex-col-reverse pt-10 max-w-[1600px] mb-10">
                 <div className="circle rounded-full absolute z-10" />
                 <div className='w-100 md:w-[50%] flex items-center md:items-start justify-center md:justify-center  flex-col  px-5  md:px-16   md:pt-0 relative'>

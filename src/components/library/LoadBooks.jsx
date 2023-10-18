@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react"
 const LoadCards = () => {
-    const elementItems = [1, 2, 3,4].map(( index) => (
+    const elementItems = [1, 2, 3,4,5,6].map(( index) => (
         <div className="load-card mx-1" key={index}>
         <svg className="w-[100%] h-[400px]"  viewBox="0 0 408 353" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <title>cards / loading</title>
@@ -15,7 +15,7 @@ const LoadCards = () => {
     </div>
     ));
     return (
-        <SimpleGrid p="10px" columns={4} spacing={10} minChildWidth={250} className='shop-card' >
+        <SimpleGrid p="10px" columns={3} spacing={10} minChildWidth={230} className='shop-card' >
             {elementItems}
         </SimpleGrid>
     )

@@ -10,6 +10,7 @@ import discountImg from '../../assets/library/chegirma.png'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
 const Hero = () => {
     const progressCircle = useRef(null);
     const progressContent = useRef(null);
@@ -52,7 +53,7 @@ const Hero = () => {
     ]
     return (
         <section className={style.container}>
-
+            
             <Swiper
                 className={style.swiperADS}
                 modules={[Autoplay, Pagination, Navigation]}
