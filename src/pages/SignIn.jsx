@@ -118,13 +118,6 @@ export default function SignInSide() {
         return () => {
             // Perform cleanup, if needed
         };
-
-        // console.log({
-        //     username: data.get('username'),
-        //     password: data.get('password'),
-        //     first_name: data.get('first_name'),
-        //     last_name: data.get('last_name'),
-        // });
     };
 
     return (
