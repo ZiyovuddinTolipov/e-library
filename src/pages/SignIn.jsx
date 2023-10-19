@@ -95,10 +95,10 @@ export default function SignInSide() {
                 localStorage.setItem('token', result.token);
                 localStorage.setItem('staff', result.staff);
 
-                // result.staff
+                result.staff=="librarian" ? navigate("/admin"):navigate("/library");
                 // setToken(result.token)
                 // setStaff(result.staff)
-                navigate("/library");
+                // navigate("/library");
                 // setFormData({
                 //     password: '',
                 //     username: '',

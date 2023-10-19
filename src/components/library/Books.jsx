@@ -139,9 +139,9 @@ function Media(props) {
             {loading ? (
                 "helllo"
             ) : (
-                <ul className=' rounded-2xl w-[30%] flex flex-col gap-3 ' >
+                <ul className='  w-[30%] flex flex-col gap-3 mt-3  border-left pl-2 border-[#00ffcb]' >
                     {eData.map(item => (
-                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-between text-white w-100 gap-4'>
+                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-between text-white bg-slate-700 p-2 w-100 gap-4'>
                             <img src={eBookIcon} alt="ebook svg" width={60} />
                             <div className='flex flex-col justify-between h-100'>
                                 <h3>{item.book.title}</h3>
