@@ -1,5 +1,5 @@
 import { Card, CardBody, CardFooter, SimpleGrid, Image, Heading, Stack, Text, Button, ButtonGroup, Divider } from '@chakra-ui/react'
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadCards from './LoadBooks';
 import eBookIcon from "../../assets/ebook.png"
