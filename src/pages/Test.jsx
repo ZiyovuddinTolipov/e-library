@@ -1,61 +1,27 @@
-import {useRef , useState} from "react" 
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function UpdateData() {
  
- const ProfilePicture = ({ register }) => {
-    const hiddenInputRef = useRef();
-
-
-    const [preview, setPreview] = useState();
-
-
-    const { ref: registerRef, ...rest } = register("profilePicture");
-
-
-    const handleUploadedFile = (event) => {
-        const file = event.target.files[0];
-
-
-        const urlImage = URL.createObjectURL(file);
-
-
-        setPreview(urlImage);
+    const headers = {
+        "Authorization": `Token ${localStorage.getItem("token")}`
     };
-
-
-    const onUpload = () => {
-        hiddenInputRef.current.click();
-    };
-
-
-    const uploadButtonLabel =
-        preview ? "Change image" : "Upload image";
-
+    useEffect(() => {
+        axios.put('https://samtuitlib.pythonanywhere.com/allmessages/', headers)
+            .then(response => {
+                console.log('PUT request successful', response.data);
+            })
+            .catch(error => {
+                console.error('PUT request error', error);
+            });
+    }, []);
 
     return (
-        <ProfilePictureContainer>
-            <Label>Profile picture</Label>
-
-
-            <HiddenInput
-                type="file"
-                name="profilePicture"
-                {...rest}
-                onChange={handleUploadedFile}
-                ref={(e) => {
-                    registerRef(e);
-                    hiddenInputRef.current = e;
-                }}
-            />
-
-
-            <Avatar src={preview} sx={{ width: 80, height: 80 }} />
-
-
-            <Button variant="text" onClick={onUpload}>
-                {uploadButtonLabel}
-            </Button>
-
-        </ProfilePictureContainer>
+        <div>
+            <h2>Update Data</h2>
+            {localStorage.getItem("token")}
+        </div>
     );
-};
+}
 
-export default ProfilePicture;
+export default UpdateData;

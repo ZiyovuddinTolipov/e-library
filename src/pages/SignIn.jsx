@@ -94,6 +94,7 @@ export default function SignInSide() {
                 console.log(result);
                 localStorage.setItem('token', result.token);
                 localStorage.setItem('staff', result.staff);
+                localStorage.setItem('user_id', result.id);
 
                 result.staff=="librarian" ? navigate("/admin"):navigate("/library");
                 // setToken(result.token)

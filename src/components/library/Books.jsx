@@ -117,7 +117,7 @@ function Media(props) {
                         {item ? (
                             <CardFooter className="bg-slate-700">
                                 <ButtonGroup spacing='2' className='flex justify-between items-center w-100' >
-                                    <Button variant='solid' color="#fff" colorScheme='yellow' onClick={localStorage.setItem('user_post_id', item.book.id + "_key")} className={style.navLink}>
+                                    <Button variant='solid' color="#fff" colorScheme='yellow' onClick={localStorage.setItem('user_post_id', item.book.id)} className={style.navLink}>
                                         Kitobni olish
                                     </Button>
                                     <Button variant='solid' color="#fff" className={style.navLink}
