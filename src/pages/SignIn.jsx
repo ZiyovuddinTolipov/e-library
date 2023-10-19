@@ -38,6 +38,7 @@ const style = {
 export default function SignInSide() {
     const navigate = useNavigate();
     const [token, setToken] = useState(null);
+    const [staff, setStaff] = useState(null);
     const [formData, setFormData] = useState({
         password: '',
         username: '',
@@ -51,7 +52,8 @@ export default function SignInSide() {
         });
     };
     const base64Credentials = btoa(`${formData.username}:${formData.password}`);
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
+    // localStorage.setItem('staff', staff);
     const headers = {
         'Authorization': `Basic ${base64Credentials}`,
         'Content-Type': 'application/json',
@@ -89,11 +91,11 @@ export default function SignInSide() {
             })
             .then((result) => {
                 // Handle the response data here
-
-                console.log(result.token);
-                localStorage.setItem("token", result.token)
-                localStorage.setItem("token_secret", result.token)
-                toast.success("Tizimga kirdingiz.")
+                console.log(result);
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('staff', result.staff);
+                // setToken(result.token)
+                // setStaff(result.staff)
                 navigate("/library");
                 // setFormData({
                 //     password: '',
@@ -163,27 +165,13 @@ export default function SignInSide() {
                                 id="username"
                                 label="login"
                                 name="username"
-                                autoComplete="username"
                                 value={formData.username}
                                 onChange={handleInputChange}
                                 autoFocus
                             />
-                            {/* <TextField
-                                margin="normal"
-                                fullWidth
-                                required
-                                name="password"
-                                label="parol"
-                                type="password"
-                                id="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                // autoComplete="current-password"
-                            /> */}
-
                             <FormControl variant="outlined" sx={{
-                                        width: "100%",
-                                    }}>
+                                width: "100%",
+                            }}>
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
