@@ -1,35 +1,26 @@
-import { Button, Dialog, TextField, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import { Button, Dialog, TextField } from "@mui/material";
 // import { useState, useEffect } from "react"
 import { useState, useEffect } from "react"
 // import axios from "axios"
 import MenuItem from '@mui/material/MenuItem';
-import { Controller, useController, useForm } from 'react-hook-form';
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm } from 'react-hook-form';
 import { BooksGenre, BooksShrift } from "../data/data";
-import { toast } from "react-toastify"
+// import { toast } from "react-toastify"
+import EbookFile from "../components/library/EbookFile";
 
-const schema = yup.object().shape(
-    {
-        files: yup.mixed().test("required", "please select a file", value => {
-            return value && value.length
-        })
-    }
-)
 const AddPost = () => {
     // const apiUrl = "https://samtuitlib.pythonanywhere.com/addebook/"
     // const authToken = "814d9619d44654dc5b7d7219c752cafd39590043"
-    const [fileID, setFileID] = useState(null)
-    const style = {
-        titleInpt: "py-2 px-3 border-2 border-blue-600 rounded-md",
-        inputBox: "flex flex-col md:flex-row justify-between items-center mt-4 gap-2"
-    }
+    
+    // const style = {
+    //     titleInpt: "py-2 px-3 border-2 border-blue-600 rounded-md",
+    //     inputBox: "flex flex-col md:flex-row justify-between items-center mt-4 gap-2"
+    // }
 
-    const [result, setResult] = useState("");
 
     // eslint-disable-next-line no-unused-vars
     const { formState, getValues, register, reset, handleSubmit, formState: { errors }, setValue } = useForm({
-        resolver: yupResolver(schema),
+        
     });
 
     const onSubmit = (data) => {
@@ -65,60 +56,23 @@ const AddPost = () => {
             })
         // reset();
     };
-    const [files, setFiles] = useState("");
-
-    const convert2base64 = file => {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-            setFiles(reader.result.toString())
-        }
-        reader.readAsDataURL(file);
-    }
-
-    const OnFileSubmit = data => {
-        if (data.files.lenght > 0) {
-            convert2base64(data.files[0]);
-        }
-        const formData = {
-            file: data.files[0]
-        }
-        fetch(`https://samtuitlib.pythonanywhere.com/add_efile/12`, {
-            method: 'PUT',
-            body: formData,
-            headers: {
-                "Authorization": "Token 814d9619d44654dc5b7d7219c752cafd39590043"
-            }
-        })
-            .then(response => response.json())
-            .then(response => {
-
-                if (response.status == true) {
-                    alert('Yuklandi')
-                    // location.reload();
-                } else {
-                    console.log("hello");
-                }
-
-            })
-            .catch(error => {
-                console.error('Fayl yuklanmadi' + error.message)
-            });
-    }
     const [open, setOpen] = useState(false);
 
 
     const handleClose = () => {
         setOpen(false);
     };
+
+
     return (
         <div >
 
             <form
 
                 onSubmit={handleSubmit(onSubmit)}
+                className="max-w-[1000px] mx-auto pt-4"
             > {/* Elektron kitoblarni qo'shish uchun forma */}
-                <h2 >{"Elektron kitob qo'shish."}</h2>
+                <h2 className="text-blue-500 text-center font-[500]">{"Elektron kitob qo'shish."}</h2>
                 <div >
                     <TextField
                         required
@@ -128,6 +82,8 @@ const AddPost = () => {
                         {...register("title")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                     <TextField
@@ -138,6 +94,8 @@ const AddPost = () => {
                         {...register("authors")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                 </div>
@@ -149,17 +107,30 @@ const AddPost = () => {
                         {...register("publisher")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
-                    {/* <TextField
-
-                        id="outlined-required"
-                        label="Janiri"
+                    <TextField
+                        select
                         defaultValue=""
+                        label="Shrift*"
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
-                    /> */}
+                        {...register("font_shrift")}
+                    >
+                        <MenuItem selected disabled hidden>
+                            Shriftni tanlang
+                        </MenuItem>
+                        {BooksShrift.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </div>
                 <div >
                     <TextField
@@ -172,10 +143,12 @@ const AddPost = () => {
                         {...register("description")}
                         sx={{
                             width: "100%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                 </div>
-                <div >
+                <div className="mt-[20px] pl-[10px] flex flex-row justify-between">
 
                     <TextField
                         select
@@ -221,28 +194,7 @@ const AddPost = () => {
                     />
                 </div>
                 <div>
-                    <TextField
-                        select
-                        defaultValue=""
-                        label="Janir*"
-                        sx={{
-                            width: "30%"
-                        }}
-                        {...register("font_shrift")}
-                    >
-                        <MenuItem selected disabled hidden>
-                            Shriftni tanlang
-                        </MenuItem>
-                        {BooksShrift.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </div>
-
-                <div>
-                    <Button type="submit" variant="contained" sx={{ mt: 3 }}>
+                    <Button type="submit" variant="contained" sx={{ mt: 3,marginLeft:'10px' }}>
                         Yuborish
                     </Button>
                     {/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
@@ -250,21 +202,9 @@ const AddPost = () => {
                 <div>
                 </div>
             </form>
-            <Dialog open={open} onClose={handleClose}>
-                <form onSubmit={handleSubmit(OnFileSubmit)}>
-                    <DialogTitle>Tasdiqlndi</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            {localStorage.getItem("fileID")}
-                            Ma'lumotlar tasdiqlandi endi fayl yuklang
-                        </DialogContentText>
-                    </DialogContent>
-                    <input type="file" accept=".pdf,.doc,.docx"  {...register("files")} />
-
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Yuborish</Button>
-
-                </form>
+            <Dialog open={open} onClose={handleClose} >
+                <EbookFile />
+                <Button onClick={handleClose}>Cancel</Button>
             </Dialog>
         </div>
     )
