@@ -14,13 +14,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 function Media(props) {
+    const [data, setData] = useState([]);
+    const [eData, setEData] = useState([]);
     const { loading = false } = props;
     const [open, setOpen] = useState(false);
     const [scroll, setScroll] = useState('paper');
-
-    const handleClickOpen = (scrollType) => () => {
+    const [getEBookData, setGetEBookData] = useState({});
+    const handleClickOpen = (kitobID,paperB) => () => {
+        const bookWithId4 =(paperB == "paperB"? data : eData).find(function (book) {
+            return book.book.id == kitobID;
+        });
         setOpen(true);
-        setScroll(scrollType);
+        localStorage.setItem("kitobID", kitobID)
+        setGetEBookData(bookWithId4.book)
+        console.log(bookWithId4.book);
+        // setScroll(scrollType);
     };
     const handleClose = () => {
         setOpen(false);
@@ -34,8 +42,6 @@ function Media(props) {
             }
         }
     }, [open]);
-    const [data, setData] = useState([]);
-    const [eData, setEData] = useState([]);
     const apiUrl = 'https://samtuitlib.pythonanywhere.com/';
     // const [userPostID, setUserPostID] = useState(null);
     // localStorage.setItem('user_post_id', userPostID);
@@ -46,11 +52,9 @@ function Media(props) {
                 // Once the request is successful, update the state with the data
                 setData(response.data);
                 // console.log(response.data);
-
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-
             });
 
         axios.post(apiUrl + "get_ebooks/")
@@ -116,7 +120,8 @@ function Media(props) {
                                     <Button variant='solid' color="#fff" colorScheme='yellow' onClick={localStorage.setItem('user_post_id', item.book.id + "_key")} className={style.navLink}>
                                         Kitobni olish
                                     </Button>
-                                    <Button variant='solid' color="#fff" className={style.navLink}>
+                                    <Button variant='solid' color="#fff" className={style.navLink}
+                                        onClick={handleClickOpen(item.book.id,"paperB")}>
                                         Batafsil
                                     </Button>
                                 </ButtonGroup>
@@ -148,13 +153,13 @@ function Media(props) {
                                     <ArrowCircleDownIcon className='' />
                                 </li>
 
-                                <li title='Batafsil' className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1' onClick={handleClickOpen('paper')}>
-                                    <ArrowOutwardIcon className='' />
+                                <li
+                                    title='Batafsil'
+                                    className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1'
+                                    onClick={handleClickOpen(item.book.id)}>
+                                    <ArrowOutwardIcon />
                                 </li>
-
                             </ul>
-
-
                         </li>
                     ))}
                 </ul>
@@ -165,27 +170,36 @@ function Media(props) {
                 scroll={scroll}
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
+                className='bg-[#000]/60'
             >
-                <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
-                <DialogContent dividers={scroll === 'paper'}>
+                <DialogTitle id="scroll-dialog-title" className='bg-slate-400'>{localStorage.getItem("kitobID")}</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'} className='bg-slate-300 min-w-[400px]'>
                     <DialogContentText
                         id="scroll-dialog-description"
                         ref={descriptionElementRef}
                         tabIndex={-1}
                     >
-                        `Cras mattis consectetur purus sit amet fermentum.
-                        Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                        Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
+                        <ul>
+                            <li>Id: {getEBookData.id}</li>
+                            <li>Nomi:{getEBookData.title}</li>
+                            <li>Muallif: {getEBookData.authors}</li>
+                            <li>Janri: {getEBookData.genres}</li>
+                            <li>pages: {getEBookData.pages}</li>
+                            <li>Nashriyot: {getEBookData.publisher}</li>
+                            {
+                                getEBookData.quantity >0 ? <li>Mavjud: {getEBookData.quantity}</li>: null
+                            }
+                            
+                        </ul>
 
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
+                <DialogActions className='bg-slate-700'>
+                    <Button onClick={handleClose} className='text-[#00ffcb]'>Yopish</Button>
+                    {/* <Button onClick={handleClose}>Subscribe</Button> */}
                 </DialogActions>
             </Dialog>
-        </main>
+        </main >
     )
 }
 Media.propTypes = {
