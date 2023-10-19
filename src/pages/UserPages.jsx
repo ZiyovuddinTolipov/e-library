@@ -41,7 +41,7 @@ export default function PrimarySearchAppBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
     // eslint-disable-next-line no-unused-vars
-    const [selectStudentPage, setselectStudentPage] = useState(localStorage.getItem('selectStudentPage') || 'dashboard');
+    const [selectStudentPage, setselectStudentPage] = useState(localStorage.getItem('selectStudentPage') || 'doneBooks');
 
     const handleButtonClick = (buttonName) => {
         localStorage.setItem('selectStudentPage', buttonName);
@@ -72,8 +72,8 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={() => handleButtonClick('dashboard')}
-                sx={localStorage.getItem('selectStudentPage') === "dashboard" ? { backgroundColor: "rgba(31, 38, 46, 0.2)" } : null}>Profile</MenuItem>
+            <MenuItem onClick={() => handleButtonClick('doneBooks')}
+                sx={localStorage.getItem('selectStudentPage') === "doneBooks" ? { backgroundColor: "rgba(31, 38, 46, 0.2)" } : null}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -200,7 +200,7 @@ export default function PrimarySearchAppBar() {
                 {renderMenu}
             </Box>
             {
-                localStorage.getItem('selectStudentPage') === "dashboard" ? <UserNotf /> : null
+                localStorage.getItem('selectStudentPage') === "doneBooks" ? <UserNotf /> : null
             }
             {
                 localStorage.getItem('selectedButton') === "list" ? <UserNotf /> : null

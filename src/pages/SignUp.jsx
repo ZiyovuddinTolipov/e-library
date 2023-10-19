@@ -4,14 +4,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -24,19 +25,87 @@ function Copyright(props) {
         </Typography>
     );
 }
-
+import { useNavigate } from "react-router-dom";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        password: '',
+        username: '',
+        // Boshqa inputlarni qo'shing
+    });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
+
+
+        const apiUrl = 'https://samtuitlib.pythonanywhere.com/signin/'; // Replace with your API endpoint
+
+        const data2 = {
+            username: data.get('username'),
             password: data.get('password'),
-        });
+            first_name: data.get('first_name'),
+            last_name: data.get('last_name'),
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Inside the useEffect, you can make your POST request
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data2),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((responseData) => {
+                // Handle the response data here
+
+                console.log(responseData);
+                toast.success("Tizimga qo'shildingiz")
+                navigate("/user");
+                setFormData({
+                    first_name: '',
+                    last_name: '',
+                    password: '',
+                    username: '',
+                    // Boshqa inputlarni tozalash
+                });
+            })
+            .catch((error) => {
+                // Handle errors here
+                console.error('Error:', error);
+            });
+
+        // Optionally, you can return a cleanup function
+        return () => {
+            // Perform cleanup, if needed
+        };
+
+        // console.log({
+        //     username: data.get('username'),
+        //     password: data.get('password'),
+        //     first_name: data.get('first_name'),
+        //     last_name: data.get('last_name'),
+        // });
     };
 
     return (
@@ -62,11 +131,13 @@ export default function SignUp() {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="first_name"
                                     required
                                     fullWidth
-                                    id="firstName"
+                                    id="first_name"
                                     label="First Name"
+                                    value={formData.first_name}
+                                    onChange={handleInputChange}
                                     autoFocus
                                 />
                             </Grid>
@@ -74,9 +145,11 @@ export default function SignUp() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="lastName"
+                                    id="last_name"
                                     label="Last Name"
-                                    name="lastName"
+                                    name="last_name"
+                                    value={formData.last_name}
+                                    onChange={handleInputChange}
                                     autoComplete="family-name"
                                 />
                             </Grid>
@@ -84,10 +157,12 @@ export default function SignUp() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
+                                    id="username"
+                                    label="username"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                    autoComplete="username"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -98,13 +173,15 @@ export default function SignUp() {
                                     label="Password"
                                     type="password"
                                     id="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
                                     autoComplete="new-password"
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    control={<Checkbox value="allowExtrausernames" color="primary" />}
+                                    label="Barcha shartlarga roziman."
                                 />
                             </Grid>
                         </Grid>

@@ -1,49 +1,125 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Dialog, TextField, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 // import { useState, useEffect } from "react"
-
+import { useState, useEffect } from "react"
+// import axios from "axios"
 import MenuItem from '@mui/material/MenuItem';
-import { useForm } from 'react-hook-form';
-
-import { BooksGenre } from "../data/data";
+import { Controller, useController, useForm } from 'react-hook-form';
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { BooksGenre, BooksShrift } from "../data/data";
 import { toast } from "react-toastify"
 
-
+const schema = yup.object().shape(
+    {
+        files: yup.mixed().test("required", "please select a file", value => {
+            return value && value.length
+        })
+    }
+)
 const AddPost = () => {
-
+    // const apiUrl = "https://samtuitlib.pythonanywhere.com/addebook/"
+    // const authToken = "814d9619d44654dc5b7d7219c752cafd39590043"
+    const [fileID, setFileID] = useState(null)
     const style = {
         titleInpt: "py-2 px-3 border-2 border-blue-600 rounded-md",
         inputBox: "flex flex-col md:flex-row justify-between items-center mt-4 gap-2"
     }
 
-    // eslint-disable-next-line no-unused-vars
-    const { formState, getValues, register, reset, handleSubmit, formState: { errors }, } = useForm({
+    const [result, setResult] = useState("");
 
+    // eslint-disable-next-line no-unused-vars
+    const { formState, getValues, register, reset, handleSubmit, formState: { errors }, setValue } = useForm({
+        resolver: yupResolver(schema),
     });
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data, null, 4))
-        toast.success("Yangi kitob qo'shildi !", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-        reset();
-    };
+        console.log(data);
+        const headers = {
+            "Authorization": "Token 814d9619d44654dc5b7d7219c752cafd39590043"
+        };
 
+        const fetchData = {
+            title: data.title,
+            authors: data.authors,
+            publisher: data.publisher,
+            description: data.description,
+            genres: data.genres,
+            language: data.language,
+            pages: data.pages,
+            font_shrift: data.font_shrift,
+        };
+
+        fetch('https://samtuitlib.pythonanywhere.com/addebook/', {
+            method: 'POST',
+            headers: headers,
+            body: new URLSearchParams(fetchData),
+            "content-type": 'application/json'
+        })
+            .then(response => response.json())
+            .then(res => {
+                console.log("So'rov natijasi:", res);
+                localStorage.setItem("fileID", res.id)
+                // toast.success("Kitob muvaffaqiyatli qo'shildi!")
+
+                setOpen(true);
+            })
+        // reset();
+    };
+    const [files, setFiles] = useState("");
+
+    const convert2base64 = file => {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setFiles(reader.result.toString())
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const OnFileSubmit = data => {
+        if (data.files.lenght > 0) {
+            convert2base64(data.files[0]);
+        }
+        const formData = {
+            file: data.files[0]
+        }
+        fetch(`https://samtuitlib.pythonanywhere.com/add_efile/12`, {
+            method: 'PUT',
+            body: formData,
+            headers: {
+                "Authorization": "Token 814d9619d44654dc5b7d7219c752cafd39590043"
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+
+                if (response.status == true) {
+                    alert('Yuklandi')
+                    // location.reload();
+                } else {
+                    console.log("hello");
+                }
+
+            })
+            .catch(error => {
+                console.error('Fayl yuklanmadi' + error.message)
+            });
+    }
+    const [open, setOpen] = useState(false);
+
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
-        <div className="w-100 h-auto max-w-[1000px] mx-auto pt-2 sm:pt-4 md:pt-10">
+        <div >
 
             <form
-                className="mt-2 md:mt-10"
+
                 onSubmit={handleSubmit(onSubmit)}
             > {/* Elektron kitoblarni qo'shish uchun forma */}
-            <h2 className="text-blue-500 text-center font-[500]">{"Elektron kitob qo'shish."}</h2>
-                <div className={style.inputBox}>
+                <h2 >{"Elektron kitob qo'shish."}</h2>
+                <div >
                     <TextField
                         required
                         id="outlined-required"
@@ -54,21 +130,18 @@ const AddPost = () => {
                             width: "50%",
                         }}
                     />
-                    {/* <div className="w-50 relative">
-                    <p className="absolute bottom-[-70%] text-red-600 text-sm pl-2">{errors.author?.message}</p>
-                    </div> */}
                     <TextField
                         required
                         id="outlined-required"
                         label="Kitob muallifi"
                         defaultValue=""
-                        {...register("author")}
+                        {...register("authors")}
                         sx={{
                             width: "50%",
                         }}
                     />
                 </div>
-                <div className="flex flex-col md:flex-row justify-between items-center mt-7 gap-2">
+                <div >
                     <TextField
                         id="outlined-required"
                         label="Nashriyot"
@@ -78,7 +151,7 @@ const AddPost = () => {
                             width: "50%",
                         }}
                     />
-                    <TextField
+                    {/* <TextField
 
                         id="outlined-required"
                         label="Janiri"
@@ -86,9 +159,9 @@ const AddPost = () => {
                         sx={{
                             width: "50%",
                         }}
-                    />
+                    /> */}
                 </div>
-                <div className={style.inputBox}>
+                <div >
                     <TextField
                         id="outlined-multiline-static"
                         label="Kitob haqida ma'lumot"
@@ -102,7 +175,7 @@ const AddPost = () => {
                         }}
                     />
                 </div>
-                <div className={style.inputBox}>
+                <div >
 
                     <TextField
                         select
@@ -111,7 +184,7 @@ const AddPost = () => {
                         sx={{
                             width: "30%"
                         }}
-                        {...register("language")}
+                        {...register("genres")}
                     >
                         <MenuItem selected disabled hidden>
                             Janirni tanlang
@@ -131,7 +204,7 @@ const AddPost = () => {
                         sx={{
                             width: "45%",
                         }}
-                        />
+                    />
                     <TextField
                         id="outlined-required"
                         label="Sahifa soni"
@@ -148,6 +221,27 @@ const AddPost = () => {
                     />
                 </div>
                 <div>
+                    <TextField
+                        select
+                        defaultValue=""
+                        label="Janir*"
+                        sx={{
+                            width: "30%"
+                        }}
+                        {...register("font_shrift")}
+                    >
+                        <MenuItem selected disabled hidden>
+                            Shriftni tanlang
+                        </MenuItem>
+                        {BooksShrift.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
+
+                <div>
                     <Button type="submit" variant="contained" sx={{ mt: 3 }}>
                         Yuborish
                     </Button>
@@ -156,6 +250,22 @@ const AddPost = () => {
                 <div>
                 </div>
             </form>
+            <Dialog open={open} onClose={handleClose}>
+                <form onSubmit={handleSubmit(OnFileSubmit)}>
+                    <DialogTitle>Tasdiqlndi</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {localStorage.getItem("fileID")}
+                            Ma'lumotlar tasdiqlandi endi fayl yuklang
+                        </DialogContentText>
+                    </DialogContent>
+                    <input type="file" accept=".pdf,.doc,.docx"  {...register("files")} />
+
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button type="submit">Yuborish</Button>
+
+                </form>
+            </Dialog>
         </div>
     )
 }

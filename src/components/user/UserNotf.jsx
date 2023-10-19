@@ -32,25 +32,28 @@ function Media(props) {
   const { loading = false } = props;
 
   return (
-    <Grid container spacing={2} className='bg-white mx-auto'>
-     
-        {(loading ? Array.from(new Array(3)) : data).map((item, index) => (
-          <Grid key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }} item xs={5}>
-            {item ? (
-              <Box item xs={3}>
-                <img
-                  style={{ width: 210, height: 118 }}
-                  alt={item.title}
-                  src={item.src}
-                
-                />
-              </Box>
-            ) : (
-              <Skeleton variant="rectangular" width={210} height={118} />
-            )}
+    <div className='bg-white mx-auto flex flex-wrap '>
 
-            {item ? (
-              <Box sx={{ pr: 2 }}  item xs={6} >
+      {(loading ? Array.from(new Array(3)) : data).map((item, index) => (
+        <div key={index} className='w-[50%] p-3 flex flex-row flex-nowrap'>
+          {item ? (
+            <div className="w-[30%]">
+              <img
+                style={{ width: 210, height: 120 }}
+                alt={item.title}
+                src={item.src}
+
+              />
+            </div>
+          ) : (
+            <div className="w-[30%]">
+              <Skeleton variant="rectangular" width={210} height={118} />
+            </div>
+          )}
+
+          {item ? (
+            <div className='w-[70%] flex flex-col justify-between' >
+              <div className='w-100'>
                 <Typography gutterBottom variant="body2">
                   {item.title}
                 </Typography>
@@ -60,17 +63,22 @@ function Media(props) {
                 <Typography variant="caption" color="text.secondary">
                   {`${item.views} • ${item.createdAt}`}
                 </Typography>
-              </Box>
-            ) : (
-              <Box sx={{ pt: 0.5 }}>
-                <Skeleton />
-                <Skeleton width="60%" />
-              </Box>
-            )}
-          </Grid>
-        ))}
+              </div>
+              <div> {/* Button Group */}
+                <button className='bg-red-500 text-white px-2 py-1 rounded-md outline-none'>O'chirish</button>
+              </div>
+            </div>
+          ) : (
+            <div className='w-[70%]'>
+              <Skeleton width="50%" />
+              <Skeleton />
+            </div>
+          )}
 
-    </Grid>
+        </div>
+      ))}
+
+    </div>
   );
 }
 
@@ -81,8 +89,8 @@ Media.propTypes = {
 export default function YouTube() {
   return (
     <Box sx={{ overflow: 'hidden' }}>
-      <Media loading />
-      <Media />
+      <Media loading={false} />
+      {/* <Media /> */}
     </Box>
   );
 }

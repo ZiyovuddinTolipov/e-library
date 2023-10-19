@@ -16,4 +16,17 @@ export const BooksGenre = [
         label: 'Diniy',
     },
 ];
+export const BooksShrift = [
+    {
+        value: 'LOTIN',
+        label: 'LOTIN',
+    },
+    {
+        value: 'CYRLLIC',
+        label: 'CYRLLIC',
+    },
+
+];
+
+
 
