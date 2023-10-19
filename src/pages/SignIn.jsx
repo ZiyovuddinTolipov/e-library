@@ -14,6 +14,8 @@ import bgImg from '../assets/bgtatu.png'
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -54,6 +56,13 @@ export default function SignInSide() {
         'Authorization': `Basic ${base64Credentials}`,
         'Content-Type': 'application/json',
     }
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -65,7 +74,6 @@ export default function SignInSide() {
             username: data.get('username'),
             password: data.get('password'),
         };
-
 
         // Inside the useEffect, you can make your POST request
         fetch(apiUrl, {
@@ -79,22 +87,29 @@ export default function SignInSide() {
                 }
                 return response.json();
             })
-            .then((responseData) => {
+            .then((result) => {
                 // Handle the response data here
 
-                console.log(responseData);
-                toast.success("Tizimga qo'shildingiz")
-                navigate("/user");
-                setFormData({
-                    password: '',
-                    username: '',
-                    // Boshqa inputlarni tozalash
-                });
+                console.log(result.token);
+                localStorage.setItem("token", result.token)
+                localStorage.setItem("token_secret", result.token)
+                toast.success("Tizimga kirdingiz.")
+                navigate("/library");
+                // setFormData({
+                //     password: '',
+                //     username: '',
+                //     // Boshqa inputlarni tozalash
+                // });
             })
             .catch((error) => {
                 // Handle errors here
                 toast.error("Login yoki parol noto'g'ri")
                 console.error('Error:', error);
+                setFormData({
+                    password: '',
+                    username: '',
+                    // Boshqa inputlarni tozalash
+                });
             });
 
         // Optionally, you can return a cleanup function
@@ -153,18 +168,48 @@ export default function SignInSide() {
                                 onChange={handleInputChange}
                                 autoFocus
                             />
-                            <TextField
+                            {/* <TextField
                                 margin="normal"
-                                required
                                 fullWidth
+                                required
                                 name="password"
                                 label="parol"
                                 type="password"
                                 id="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                autoComplete="current-password"
-                            />
+                                // autoComplete="current-password"
+                            /> */}
+
+                            <FormControl variant="outlined" sx={{
+                                        width: "100%",
+                                    }}>
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    sx={{
+                                        width: "100%",
+                                    }}
+                                    required
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    type={showPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    label="Password"
+                                />
+                            </FormControl>
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="parolni saqlab qolish"
