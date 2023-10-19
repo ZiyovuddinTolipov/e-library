@@ -37,8 +37,8 @@ const style = {
 
 export default function SignInSide() {
     const navigate = useNavigate();
-    const [token, setToken] = useState(null);
-    const [staff, setStaff] = useState(null);
+    // const [token, setToken] = useState(null);
+    // const [staff, setStaff] = useState(null);
     const [formData, setFormData] = useState({
         password: '',
         username: '',
