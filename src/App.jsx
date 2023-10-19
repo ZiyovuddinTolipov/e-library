@@ -2,7 +2,7 @@ import { useRoutes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 // pages 
 import HomePage from './pages/Home';
-import Dashbord from "./pages/User"
+import Admin from "./pages/Admin"
 import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
 import NotFound from './pages/NotFound';
@@ -16,7 +16,7 @@ function App() {
     { path: '/', element: <HomePage /> },
     { path: '/test', element: <Test /> },
     { path: '/library', element: <LibraryPage /> },
-    { path: '/admin', element: <Dashbord /> },
+    { path: '/admin', element: <Admin /> },
     { path: '/user', element: <UserPage /> },
     { path: '/signup', element: <SignUp /> },
     { path: '/signin', element: <SignIn /> },

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,12 +14,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 
-
-
-
 export default function PrimarySearchAppBar() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -40,7 +37,20 @@ export default function PrimarySearchAppBar() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+    const [selectStudentPage, setselectStudentPage] = useState(localStorage.getItem('selectStudentPage') || 'dashboard');
 
+    const handleButtonClick = (buttonName) => {
+        localStorage.setItem('selectStudentPage', buttonName);
+        setselectStudentPage(buttonName);
+        handleMenuClose();
+    };
+
+    useEffect(() => {
+        const storedButton = localStorage.getItem('selectStudentPage');
+        if (storedButton) {
+            setselectStudentPage(storedButton);
+        }
+    }, []);
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -58,7 +68,8 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={() => handleButtonClick('dashboard')}
+                sx={localStorage.getItem('selectStudentPage') === "dashboard" ? { backgroundColor: "rgba(31, 38, 46, 0.2)" } : null}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -136,7 +147,7 @@ export default function PrimarySearchAppBar() {
                     >
                         SAMTUIT LIBRARY
                     </Typography>
-                
+
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
