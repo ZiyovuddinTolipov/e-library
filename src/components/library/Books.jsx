@@ -12,7 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function Media(props) {
     const navigation = useNavigate()
     const [data, setData] = useState([]);
@@ -34,11 +34,7 @@ function Media(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleFileDowloand = (fileId) => {
-            location.href=`https://samtuitlib.pythonanywhere.com/save/10`;
-            console.log(fileId);
-        // location.href =`https://samtuitlib.pythonanywhere.com/save/${fileId}`
-    }
+
     const descriptionElementRef = useRef(null);
     useEffect(() => {
         if (open) {
@@ -152,12 +148,9 @@ function Media(props) {
                                 <h4 className='text-[#00ffcb]'>{item.book.authors}</h4>
                             </div>
                             <ul className='w-[20%] h-full flex items-center justify-between text-[50px]'>
-                                <li
-                                    className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'
-                                    onClick={handleFileDowloand(item.file.id)}
-                                >
+                                <a href={`https://samtuitlib.pythonanywhere.com/save/${item.file.id}`} className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'>
                                     <ArrowCircleDownIcon className='' />
-                                </li>
+                                </a>
                                 <li
                                     title='Batafsil'
                                     className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1'
