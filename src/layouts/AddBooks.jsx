@@ -1,39 +1,79 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Dialog, TextField } from "@mui/material";
 // import { useState, useEffect } from "react"
-
+import { useState, useEffect } from "react"
+// import axios from "axios"
 import MenuItem from '@mui/material/MenuItem';
 import { useForm } from 'react-hook-form';
-
-import { BooksGenre } from "../data/data";
-import { toast } from "react-toastify"
-
+import { BooksGenre, BooksShrift } from "../data/data";
+// import { toast } from "react-toastify"
+import EbookFile from "../components/library/EbookFile";
 
 const AddPost = () => {
+    // const apiUrl = "https://samtuitlib.pythonanywhere.com/addebook/"
+    // const authToken = "814d9619d44654dc5b7d7219c752cafd39590043"
+    
+    // const style = {
+    //     titleInpt: "py-2 px-3 border-2 border-blue-600 rounded-md",
+    //     inputBox: "flex flex-col md:flex-row justify-between items-center mt-4 gap-2"
+    // }
 
-    const style = {
-        titleInpt: "py-2 px-3 border-2 border-blue-600 rounded-md",
-        inputBox: "flex flex-col md:flex-row justify-between items-center mt-4 gap-2"
-    }
 
     // eslint-disable-next-line no-unused-vars
-    const { formState, getValues, register, reset, handleSubmit, formState: { errors }, } = useForm({
-
+    const { formState, getValues, register, reset, handleSubmit, formState: { errors }, setValue } = useForm({
+        
     });
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data, null, 4))
-        // toast.success("Yangi kitob qo'shildi !");
-        // location.reload()
+        console.log(data);
+        const headers = {
+            "Authorization": "Token 814d9619d44654dc5b7d7219c752cafd39590043"
+        };
+
+        const fetchData = {
+            title: data.title,
+            authors: data.authors,
+            publisher: data.publisher,
+            description: data.description,
+            genres: data.genres,
+            language: data.language,
+            pages: data.pages,
+            font_shrift: data.font_shrift,
+        };
+
+        fetch('https://samtuitlib.pythonanywhere.com/addpbook/', {
+            method: 'POST',
+            headers: headers,
+            body: new URLSearchParams(fetchData),
+            "content-type": 'application/json'
+        })
+            .then(response => response.json())
+            .then(res => {
+                console.log("So'rov natijasi:", res);
+                localStorage.setItem("fileID", res.id)
+                // toast.success("Kitob muvaffaqiyatli qo'shildi!")
+
+                setOpen(true);
+            })
+        // reset();
+    };
+    const [open, setOpen] = useState(false);
+
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
+
     return (
-        <div className="w-100 h-auto max-w-[1000px] mx-auto pt-2 sm:pt-4 md:pt-10">
+        <div >
+
             <form
-                className="mt-2 md:mt-10"
+
                 onSubmit={handleSubmit(onSubmit)}
+                className="max-w-[1000px] mx-auto pt-4"
             > {/* Elektron kitoblarni qo'shish uchun forma */}
-            <h2 className="text-blue-500 text-center font-[500]">{"Qog'oz kitob qo'shish."}</h2>
-                <div className={style.inputBox}>
+                <h2 className="text-blue-500 text-center font-[500]">{"Qog'oz kitob qo'shish."}</h2>
+                <div >
                     <TextField
                         required
                         id="outlined-required"
@@ -42,23 +82,24 @@ const AddPost = () => {
                         {...register("title")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
-                    {/* <div className="w-50 relative">
-                    <p className="absolute bottom-[-70%] text-red-600 text-sm pl-2">{errors.author?.message}</p>
-                    </div> */}
                     <TextField
                         required
                         id="outlined-required"
                         label="Kitob muallifi"
                         defaultValue=""
-                        {...register("author")}
+                        {...register("authors")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                 </div>
-                <div className="flex flex-col md:flex-row justify-between items-center mt-7 gap-2">
+                <div >
                     <TextField
                         id="outlined-required"
                         label="Nashriyot"
@@ -66,19 +107,32 @@ const AddPost = () => {
                         {...register("publisher")}
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                     <TextField
-
-                        id="outlined-required"
-                        label="Janiri"
+                        select
                         defaultValue=""
+                        label="Shrift*"
                         sx={{
                             width: "50%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
-                    />
+                        {...register("font_shrift")}
+                    >
+                        <MenuItem selected disabled hidden>
+                            Shriftni tanlang
+                        </MenuItem>
+                        {BooksShrift.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </div>
-                <div className={style.inputBox}>
+                <div >
                     <TextField
                         id="outlined-multiline-static"
                         label="Kitob haqida ma'lumot"
@@ -89,10 +143,12 @@ const AddPost = () => {
                         {...register("description")}
                         sx={{
                             width: "100%",
+                            marginTop:"20px",
+                            paddingLeft: "10px",
                         }}
                     />
                 </div>
-                <div className={style.inputBox}>
+                <div className="mt-[20px] pl-[10px] flex flex-row justify-between">
 
                     <TextField
                         select
@@ -101,7 +157,7 @@ const AddPost = () => {
                         sx={{
                             width: "30%"
                         }}
-                        {...register("language")}
+                        {...register("genres")}
                     >
                         <MenuItem selected disabled hidden>
                             Janirni tanlang
@@ -121,7 +177,7 @@ const AddPost = () => {
                         sx={{
                             width: "45%",
                         }}
-                        />
+                    />
                     <TextField
                         id="outlined-required"
                         label="Sahifa soni"
@@ -138,7 +194,7 @@ const AddPost = () => {
                     />
                 </div>
                 <div>
-                    <Button type="submit" variant="contained" sx={{ mt: 3 }}>
+                    <Button type="submit" variant="contained" sx={{ mt: 3,marginLeft:'10px' }}>
                         Yuborish
                     </Button>
                     {/* <pre>{JSON.stringify(getValues(), null, 4)}</pre> */}
@@ -146,6 +202,10 @@ const AddPost = () => {
                 <div>
                 </div>
             </form>
+            <Dialog open={open} onClose={handleClose} >
+                <EbookFile />
+                <Button onClick={handleClose}>Cancel</Button>
+            </Dialog>
         </div>
     )
 }

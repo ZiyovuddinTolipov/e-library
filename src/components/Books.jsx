@@ -124,12 +124,6 @@ function App() {
                 label: "Action",
                 field: "action",
                 width: 100,
-            },
-            {
-                label: "Edit",
-                field: "edit",
-                action: false,
-                width: 100,
             }
         ],
 
@@ -159,35 +153,7 @@ function App() {
                 small
                 data={data}
             />
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle className="flex justify-between">
-                    <h3 className="flex justify-between">
-                        {JSON.parse(localStorage.getItem('open-table-row-for-edit')).title}
-                    </h3>
-                    <h3>
-                        {JSON.parse(localStorage.getItem('open-table-row-for-edit')).id}
-                    </h3>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        {JSON.parse(localStorage.getItem('open-table-row-for-edit')).body}
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        // label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                        value={JSON.parse(localStorage.getItem('open-table-row-for-edit')).title}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
+          
         </div>
     );
 }

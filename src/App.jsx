@@ -8,7 +8,7 @@ import SignUp from "./pages/SignUp"
 import NotFound from './pages/NotFound';
 import LibraryPage from "./pages/Library"
 import Test from "./pages/Test"
-import {ToastContainer} from "react-toastify"
+import { ToastContainer } from "react-toastify"
 // user pages 
 import UserPage from "./pages/UserPages"
 function App() {
@@ -30,19 +30,19 @@ function App() {
 
     <div>
       <ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
 
       {/* <Navbar /> */}
       {routes}
