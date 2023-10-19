@@ -80,7 +80,7 @@ function Media(props) {
             <SimpleGrid columns={3} spacing={10} minChildWidth={300} className=' w-[70%]' >
                 {(loading ? Array.from(new Array(12)) : data).map((item, index) => (
                     // console.log(item.book.book[1])
-                    <Card maxW='sm' key={index} className='bg-slate-800 text-slate-100 my-3 mx-auto flex flex-col items-center justify-center max-h-[500px] w-full max-w-[300px]'>
+                    <Card maxW='sm' key={index} className='bg-slate-800 hover:bg-slate-700 duration-200  text-slate-100 my-3 mx-auto flex flex-col items-center justify-center max-h-[500px] w-full max-w-[300px]'>
                         <CardBody className='px-3 py-4 flex  flex-col relative '>
                             {item ? (
                                 <div className="w-100 h-[200px] flex items-center justify-center">
@@ -141,7 +141,7 @@ function Media(props) {
             ) : (
                 <ul className='  w-[30%] flex flex-col gap-3 mt-3  border-left pl-2 border-[#00ffcb]' >
                     {eData.map(item => (
-                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-between text-white bg-slate-700 p-2 w-100 gap-4'>
+                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-between text-white bg-slate-700 hover:bg-slate-600 duration-200 p-2 w-100 gap-4'>
                             <img src={eBookIcon} alt="ebook svg" width={60} />
                             <div className='flex flex-col justify-between h-100'>
                                 <h3>{item.book.title}</h3>
