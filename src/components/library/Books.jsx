@@ -1,17 +1,19 @@
-import { Card, CardBody, CardFooter, SimpleGrid, Stack, Text, Button, ButtonGroup, Divider } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, SimpleGrid, Stack, Text, Button, ButtonGroup, Divider ,Tooltip} from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
-
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import eBookIcon from "../../assets/ebook.png"
+
 
 function Media(props) {
     const { loading = false } = props;
 
     const [data, setData] = useState([]);
-
+    const [eData, setEData] = useState([]);
     const apiUrl = 'https://samtuitlib.pythonanywhere.com/';
     // const [userPostID, setUserPostID] = useState(null);
     // localStorage.setItem('user_post_id', userPostID);
@@ -22,13 +24,25 @@ function Media(props) {
                 // Once the request is successful, update the state with the data
                 setData(response.data);
                 // console.log(response.data);
-                
+
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
 
             });
-    }, [ ]);
+
+        axios.post(apiUrl + "get_ebooks/")
+            .then(response2 => {
+                // Once the request is successful, update the state with the data
+                setEData(response2.data);
+                console.log(response2.data);
+
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+
+            });
+    }, []);
 
     const style = {
         navLink: " mx-3 px-3 py-2 w-[50%] border-2  cursor-pointer hover:border-[#fff] duration-200 hover: border-[#00ffcb] text-[#00ffcb] hover:text-[#00ffcb]"
@@ -37,7 +51,7 @@ function Media(props) {
         <main className=" h-auto flex flex-row mt-5 md:mt-16">
             {/* <h2 className='text-left py-5 text-3xl font-semibold my-5   text-white'>Bizning barcha kitoblar</h2> */}
 
-            <SimpleGrid  columns={3} spacing={10} minChildWidth={300} className=' w-[70%]' >
+            <SimpleGrid columns={3} spacing={10} minChildWidth={300} className=' w-[70%]' >
                 {(loading ? Array.from(new Array(12)) : data).map((item, index) => (
                     // console.log(item.book.book[1])
                     <Card maxW='sm' key={index} className='bg-slate-800 text-slate-100 my-3 mx-auto flex flex-col items-center justify-center max-h-[500px] w-full max-w-[300px]'>
@@ -58,17 +72,17 @@ function Media(props) {
 
                             {item ? (
                                 <Stack mt='6' spacing='3'>
-                                    <h2 className="text-xl">{item.book.title.slice(0,30)}</h2>
+                                    <h2 className="text-xl">{item.book.title.slice(0, 30)}</h2>
                                     <Text>
                                         {item.book.authors}
                                     </Text>
-                                    <Text color='black' fontSize='2xl'>
-                                        ${item.book.authors}
+                                    <Text color='white' fontSize='2xl'>
+                                        {item.book.genres ? item.book.genre : "mavjud emas"} • {item.book.quantity == 1 ? item.book.quantity : "berilmaydi"}
                                     </Text>
                                 </Stack>
                             ) : (
                                 <div className='w-[100%]'>
-                                    <Skeleton width="50%" sx={{marginTop:'30px'}} />
+                                    <Skeleton width="50%" sx={{ marginTop: '30px' }} />
                                     <Skeleton />
                                 </div>
                             )}
@@ -99,13 +113,26 @@ function Media(props) {
                 "helllo"
             ) : (
                 <ul className=' rounded-2xl w-[30%] flex flex-col gap-3 ' >
-                    {data.map(item => (
-                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-start text-white w-100 gap-4'>
-                            <img src={eBookIcon} alt="ebook svg" width={50} />
+                    {eData.map(item => (
+                        <li key={item.book.id} className='mx-auto flex flex-row items-start justify-between text-white w-100 gap-4'>
+                            <img src={eBookIcon} alt="ebook svg" width={60} />
                             <div className='flex flex-col justify-between h-100'>
                                 <h3>{item.book.title}</h3>
-                                <h4 className='text-[#00ffcb]'>{item.book.publisher}</h4>
+                                <h4 className='text-[#00ffcb]'>{item.book.authors}</h4>
                             </div>
+
+                            <ul className='w-[20%] h-full flex items-center justify-between text-[50px]'>
+                                <li className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'>
+                                    <ArrowCircleDownIcon className='' />
+                                </li>
+                                
+                                <li title='Batafsil' className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1'>
+                                    <ArrowOutwardIcon className='' />
+                                </li>
+                                
+                            </ul>
+
+
                         </li>
                     ))}
                 </ul>
