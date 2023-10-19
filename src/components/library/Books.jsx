@@ -12,16 +12,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { useNavigate } from 'react-router-dom';
 function Media(props) {
+    const navigation = useNavigate()
     const [data, setData] = useState([]);
     const [eData, setEData] = useState([]);
     const { loading = false } = props;
     const [open, setOpen] = useState(false);
     const [scroll, setScroll] = useState('paper');
     const [getEBookData, setGetEBookData] = useState({});
-    const handleClickOpen = (kitobID,paperB) => () => {
-        const bookWithId4 =(paperB == "paperB"? data : eData).find(function (book) {
+    const handleClickOpen = (kitobID, paperB) => () => {
+        const bookWithId4 = (paperB == "paperB" ? data : eData).find(function (book) {
             return book.book.id == kitobID;
         });
         setOpen(true);
@@ -33,6 +34,11 @@ function Media(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleFileDowloand = (fileId) => {
+            location.href=`https://samtuitlib.pythonanywhere.com/save/10`;
+            console.log(fileId);
+        // location.href =`https://samtuitlib.pythonanywhere.com/save/${fileId}`
+    }
     const descriptionElementRef = useRef(null);
     useEffect(() => {
         if (open) {
@@ -61,12 +67,10 @@ function Media(props) {
             .then(response2 => {
                 // Once the request is successful, update the state with the data
                 setEData(response2.data);
-                console.log(response2.data);
-
+                // console.log(response2.data);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-
             });
     }, []);
 
@@ -121,7 +125,7 @@ function Media(props) {
                                         Kitobni olish
                                     </Button>
                                     <Button variant='solid' color="#fff" className={style.navLink}
-                                        onClick={handleClickOpen(item.book.id,"paperB")}>
+                                        onClick={handleClickOpen(item.book.id, "paperB")}>
                                         Batafsil
                                     </Button>
                                 </ButtonGroup>
@@ -147,12 +151,13 @@ function Media(props) {
                                 <h3>{item.book.title}</h3>
                                 <h4 className='text-[#00ffcb]'>{item.book.authors}</h4>
                             </div>
-
                             <ul className='w-[20%] h-full flex items-center justify-between text-[50px]'>
-                                <li className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'>
+                                <li
+                                    className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'
+                                    onClick={handleFileDowloand(item.file.id)}
+                                >
                                     <ArrowCircleDownIcon className='' />
                                 </li>
-
                                 <li
                                     title='Batafsil'
                                     className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1'
@@ -187,9 +192,9 @@ function Media(props) {
                             <li>pages: {getEBookData.pages}</li>
                             <li>Nashriyot: {getEBookData.publisher}</li>
                             {
-                                getEBookData.quantity >0 ? <li>Mavjud: {getEBookData.quantity}</li>: null
+                                getEBookData.quantity > 0 ? <li>Mavjud: {getEBookData.quantity}</li> : null
                             }
-                            
+
                         </ul>
 
                     </DialogContentText>
