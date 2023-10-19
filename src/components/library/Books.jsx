@@ -1,5 +1,5 @@
-import { Card, CardBody, CardFooter, SimpleGrid, Stack, Text, Button, ButtonGroup, Divider ,Tooltip} from '@chakra-ui/react'
-import { useState, useEffect } from 'react';
+import { Card, CardBody, CardFooter, SimpleGrid, Stack, Text, Button, ButtonGroup, Divider, Tooltip } from '@chakra-ui/react'
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -7,11 +7,33 @@ import Skeleton from '@mui/material/Skeleton';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import eBookIcon from "../../assets/ebook.png"
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 function Media(props) {
     const { loading = false } = props;
+    const [open, setOpen] = useState(false);
+    const [scroll, setScroll] = useState('paper');
 
+    const handleClickOpen = (scrollType) => () => {
+        setOpen(true);
+        setScroll(scrollType);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const descriptionElementRef = useRef(null);
+    useEffect(() => {
+        if (open) {
+            const { current: descriptionElement } = descriptionElementRef;
+            if (descriptionElement !== null) {
+                descriptionElement.focus();
+            }
+        }
+    }, [open]);
     const [data, setData] = useState([]);
     const [eData, setEData] = useState([]);
     const apiUrl = 'https://samtuitlib.pythonanywhere.com/';
@@ -125,11 +147,11 @@ function Media(props) {
                                 <li className='w-[50%] flex items-center justify-center hover:text-[#00ffcb] border-none hover:border-2 border-[#00ffcb] duration-200'>
                                     <ArrowCircleDownIcon className='' />
                                 </li>
-                                
-                                <li title='Batafsil' className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1'>
+
+                                <li title='Batafsil' className='w-[50%] flex items-center justify-center hover:text-red-300 duration-200 hover:translate-x-1' onClick={handleClickOpen('paper')}>
                                     <ArrowOutwardIcon className='' />
                                 </li>
-                                
+
                             </ul>
 
 
@@ -137,6 +159,32 @@ function Media(props) {
                     ))}
                 </ul>
             )}
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                scroll={scroll}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+                    <DialogContentText
+                        id="scroll-dialog-description"
+                        ref={descriptionElementRef}
+                        tabIndex={-1}
+                    >
+                        `Cras mattis consectetur purus sit amet fermentum.
+                        Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+                        Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>Subscribe</Button>
+                </DialogActions>
+            </Dialog>
         </main>
     )
 }
