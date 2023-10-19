@@ -26,6 +26,8 @@ function Copyright(props) {
     );
 }
 import { useNavigate } from "react-router-dom";
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -107,7 +109,13 @@ export default function SignUp() {
         //     last_name: data.get('last_name'),
         // });
     };
+    const [showPassword, setShowPassword] = useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
@@ -166,17 +174,35 @@ export default function SignUp() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    value={formData.password}
-                                    onChange={handleInputChange}
-                                    autoComplete="new-password"
-                                />
+                                <FormControl variant="outlined" sx={{
+                                    width: "100%",
+                                }}>
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        sx={{
+                                            width: "100%",
+                                        }}
+                                        required
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleInputChange}
+                                        type={showPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
