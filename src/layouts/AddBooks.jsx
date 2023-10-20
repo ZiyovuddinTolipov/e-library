@@ -68,7 +68,7 @@ const AddPost = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="max-w-[1000px] mx-auto pt-4"
             > {/* Elektron kitoblarni qo'shish uchun forma */}
-                <h2 className="text-blue-500 text-center font-[500]">{"Qog'ozzzz kitob qo'shish."}</h2>
+                <h2 className="text-blue-500 text-center font-[500]">{"Qog'oz kitob qo'shish."}</h2>
                 <div >
                     <TextField
                         required

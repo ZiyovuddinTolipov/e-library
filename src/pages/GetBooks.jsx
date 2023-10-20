@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import {  Telegram } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-
+import {toast} from "react-toastify"
 const AddPost = () => {
 
     // eslint-disable-next-line no-unused-vars
@@ -27,7 +27,7 @@ const AddPost = () => {
             student_id: data.student_id,
             description: `${data.username}\n${data.soat}`,
         };
-        
+        console.log(fetchData);
 
         fetch('https://samtuitlib.pythonanywhere.com/sendmessage/', {
             method: 'POST',
@@ -37,6 +37,8 @@ const AddPost = () => {
             .then(response => response.json())
             .then(res => {
                 console.log("So'rov natijasi:", res);
+                toast.success("So'rov muvaffaqiyatli yuborildi!")
+                res.status == true ? location.reload() : toast.error("So'rov yuborilmadi!")
                 // localStorage.setItem("fileID", res.id)
                 // toast.success("Kitob muvaffaqiyatli qo'shildi!")
             })
