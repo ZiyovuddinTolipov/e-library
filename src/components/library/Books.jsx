@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Card, CardBody, CardFooter, SimpleGrid, Stack, Text, Button, ButtonGroup, Divider, Tooltip } from '@chakra-ui/react'
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
@@ -12,9 +13,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function Media(props) {
-    const navigation = useNavigate()
+    const navigate = useNavigate(); 
     const [data, setData] = useState([]);
     const [eData, setEData] = useState([]);
     const { loading = false } = props;
@@ -34,7 +35,10 @@ function Media(props) {
     const handleClose = () => {
         setOpen(false);
     };
-
+    function handleGetBooksssss(bookid){
+        localStorage.setItem('user_post_id', bookid);
+        // navigate('/getbook')
+    }
     const descriptionElementRef = useRef(null);
     useEffect(() => {
         if (open) {
@@ -117,9 +121,9 @@ function Media(props) {
                         {item ? (
                             <CardFooter className="bg-slate-700">
                                 <ButtonGroup spacing='2' className='flex justify-between items-center w-100' >
-                                    <Button variant='solid' color="#fff" colorScheme='yellow' onClick={localStorage.setItem('user_post_id', item.book.id)} className={style.navLink}>
+                                    <a href='/getbook' onClick={handleGetBooksssss(item.book.id)} className={style.navLink}>
                                         Kitobni olish
-                                    </Button>
+                                    </a>
                                     <Button variant='solid' color="#fff" className={style.navLink}
                                         onClick={handleClickOpen(item.book.id, "paperB")}>
                                         Batafsil

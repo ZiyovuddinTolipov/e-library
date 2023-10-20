@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useForm } from 'react-hook-form';
 import { BooksGenre, BooksShrift } from "../data/data";
 // import { toast } from "react-toastify"
-import EbookFile from "../components/library/EbookFile";
+import PBookFile from "../components/library/PBookFile";
 
 const AddPost = () => {
     // const apiUrl = "https://samtuitlib.pythonanywhere.com/addebook/"
@@ -25,10 +25,7 @@ const AddPost = () => {
 
     const onSubmit = (data) => {
         console.log(data);
-        const headers = {
-            "Authorization": "Token 814d9619d44654dc5b7d7219c752cafd39590043"
-        };
-
+       
         const fetchData = {
             title: data.title,
             authors: data.authors,
@@ -36,20 +33,19 @@ const AddPost = () => {
             description: data.description,
             genres: data.genres,
             language: data.language,
-            pages: data.pages,
+            quantity: data.quantity,
             font_shrift: data.font_shrift,
         };
 
         fetch('https://samtuitlib.pythonanywhere.com/addpbook/', {
             method: 'POST',
-            headers: headers,
             body: new URLSearchParams(fetchData),
             "content-type": 'application/json'
         })
             .then(response => response.json())
             .then(res => {
                 console.log("So'rov natijasi:", res);
-                localStorage.setItem("fileID", res.id)
+                localStorage.setItem("fileID", res.book_id);
                 // toast.success("Kitob muvaffaqiyatli qo'shildi!")
 
                 setOpen(true);
@@ -72,7 +68,7 @@ const AddPost = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="max-w-[1000px] mx-auto pt-4"
             > {/* Elektron kitoblarni qo'shish uchun forma */}
-                <h2 className="text-blue-500 text-center font-[500]">{"Qog'oz kitob qo'shish."}</h2>
+                <h2 className="text-blue-500 text-center font-[500]">{"Qog'ozzzz kitob qo'shish."}</h2>
                 <div >
                     <TextField
                         required
@@ -180,8 +176,8 @@ const AddPost = () => {
                     />
                     <TextField
                         id="outlined-required"
-                        label="Sahifa soni"
-                        {...register("pages")}
+                        label="Mavjud"
+                        {...register("quantity")}
                         inputProps={{
                             step: 1,
                             min: 0,
@@ -203,7 +199,7 @@ const AddPost = () => {
                 </div>
             </form>
             <Dialog open={open} onClose={handleClose} >
-                <EbookFile />
+                <PBookFile />
                 <Button onClick={handleClose}>Cancel</Button>
             </Dialog>
         </div>

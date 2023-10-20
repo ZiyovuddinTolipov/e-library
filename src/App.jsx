@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp"
 import NotFound from './pages/NotFound';
 import LibraryPage from "./pages/Library"
 import GetBooks from "./pages/GetBooks"
+import SendAdminMessage from "./pages/SendAdminMessage"
 import Test from "./pages/Test"
 import { ToastContainer } from "react-toastify"
 // user pages 
@@ -18,6 +19,7 @@ function App() {
     { path: '/', element: <HomePage /> },
     { path: '/test', element: <Test /> },
     { path: '/getbook', element: <GetBooks /> },
+    { path: '/sendmessage', element: <SendAdminMessage /> },
     { path: '/library', element: <LibraryPage /> },
     { path: '/admin', element: <Admin /> },
     { path: '/user', element: <UserPage /> },

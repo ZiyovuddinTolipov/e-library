@@ -14,12 +14,10 @@ const EbookFile = () => {
     const handleFileUpload = async () => {
         if (selectedFile) {
             const formData = new FormData();
-            formData.append('book_file', selectedFile);
+            formData.append('image', selectedFile);
             formData.append('book', localStorage.getItem("fileID"));
             try {
-                const response = await axios.put('https://samtuitlib.pythonanywhere.com/add_efile/', formData, {
-                    'Authorization': 'Token 814d9619d44654dc5b7d7219c752cafd39590043'
-                });
+                const response = await axios.post('https://samtuitlib.pythonanywhere.com/uimgadd/', formData);
                 console.log('Fayl yuborildi', response);
                 toast.success("file Yuklandi");
                 location.reload();
@@ -39,7 +37,7 @@ const EbookFile = () => {
                     {"Ma'lumotlar tasdiqlandi endi kitob rasmini yuklang"}
                 </DialogContentText>
             </DialogContent>
-            <input type="file" accept=".pdf,.doc,.docx" id="fileInput" onChange={handleFileChange} />
+            <input type="file" accept=".png,.jpg,.jpeg" id="fileInput" onChange={handleFileChange} />
             <Button onClick={handleFileUpload}>Yuborish</Button>
         </div>
     )
