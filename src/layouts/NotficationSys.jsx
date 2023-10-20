@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+import Notf from "../pages/Test"
 const NotficationSys = () => {
   const [isClicked, setIsClicked] = useState(false);
 
@@ -19,7 +20,7 @@ const NotficationSys = () => {
   return (
     <div className='w-100 '>
       <div className='w-[80%] mx-auto flex justify-center items-center mt-5'>
-        <ul className='w-100 flex flex-col gap-3'>
+        {/* <ul className='w-100 flex flex-col gap-3'>
 
           <li className={`${style.listDefaults} ${style.listError}`}>
             <h4 className={style.listText}>Error Lorem ipsum dolor sit.</h4>
@@ -41,7 +42,9 @@ const NotficationSys = () => {
             <span className={style.listIcon} onClick={handleClick} ><CloseIcon /></span>
           </li>
 
-        </ul>
+        </ul> */}
+
+        <Notf />
       </div>
     </div>
   )
