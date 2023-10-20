@@ -23,11 +23,11 @@ const Hero = () => {
                 <div className="circle rounded-full absolute z-10" />
                 <div className='w-100 md:w-[50%] flex items-center md:items-start justify-center md:justify-center  flex-col  px-5  md:px-16   md:pt-0 relative'>
                     
-                    <h3 className='text-base text-white my-2 md:text-2xl'>
-                        <span className={style.text100}>-</span> Elektron kitoblar jami <span className={style.text100}>12500+</span> dan ortiq<br />
-                        <span className={style.text100}>-</span> Foydalanuvchilar soni <span className={style.text100}>23400+</span> dan ortiq<br />
-                        <span className={style.text100}>-</span> Yuklab olinishlar soni <span className={style.text100}>15600+</span> dan ortiq
-                    </h3>
+                    <ul className='text-base text-white my-2 md:text-2xl'>
+                        <li><span className={style.text100}>-</span> Elektron kitoblar jami <span className={style.text100}>12500+</span> dan ortiq</li>
+                        <li> <span className={style.text100}>-</span> Foydalanuvchilar soni <span className={style.text100}>23400+</span> dan ortiq</li>
+                        <li><span className={style.text100}>-</span> Yuklab olinishlar soni <span className={style.text100}>15600+</span> dan ortiq</li>
+                    </ul>
                     <h2 className='text-xl sm:text-2xl  text-white mt-6 md:mt-6'>Bizni ijtimoiy tarmoqlarda kuzating!</h2>
                     <div className="social-buttons lines flex justify-center md:justify-start my-4 ">
                         
