@@ -10,6 +10,7 @@ import LibraryPage from "./pages/Library"
 import GetBooks from "./pages/GetBooks"
 import SendAdminMessage from "./pages/SendAdminMessage"
 import Test from "./pages/Test"
+import About from "./pages/About"
 import { ToastContainer } from "react-toastify"
 // user pages 
 import UserPage from "./pages/UserPages"
@@ -18,6 +19,7 @@ function App() {
   const routes = useRoutes([
     { path: '/', element: <HomePage /> },
     { path: '/test', element: <Test /> },
+    { path: '/about', element: <About /> },
     { path: '/getbook', element: <GetBooks /> },
     { path: '/sendmessage', element: <SendAdminMessage /> },
     { path: '/library', element: <LibraryPage /> },
