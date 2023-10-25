@@ -24,7 +24,7 @@ const Hero = () => {
                         <ul className="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0 z-50 ">
                             <li className="font-bold text-gray-100 md:mr-12"><Link to="/library">Kutubxona</Link></li>
                             <li className="font-bold text-gray-100 md:mr-12"><a href="#">Almashish</a></li>
-                            <li className="text-gray-100 md:mr-12"><Link to="/about">Support</Link></li>
+                            <li className="text-gray-100 md:mr-12"><Link to="/about">About</Link></li>
                             <li className="font-bold md:mr-12">
                                 <Link to="/signin">
                                 <button className="rounded-full border-2 border-blue-700 px-6 py-1 font-medium text-white transition-colors hover:border-dashed duration-300  hover:text-gray-700">Login</button>
