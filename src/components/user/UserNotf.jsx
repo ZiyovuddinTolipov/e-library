@@ -30,7 +30,6 @@ const data = [
 
 function Media(props) {
   const { loading = false } = props;
-
   return (
     <div className='bg-white mx-auto flex flex-wrap '>
 

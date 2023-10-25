@@ -145,7 +145,7 @@ const AddPost = () => {
                     />
                 </div>
                 <div className="mt-[20px] pl-[10px] flex flex-row justify-between">
-
+                    {/* Kitob janiri */}
                     <TextField
                         select
                         defaultValue=""

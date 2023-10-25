@@ -14,8 +14,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion";
+
+const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
+const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
+
 function Media(props) {
-    const navigate = useNavigate(); 
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isInView, setIsInView] = useState(false);
+
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [eData, setEData] = useState([]);
     const { loading = false } = props;
@@ -35,7 +43,7 @@ function Media(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    function handleGetBooksssss(bookid){
+    function handleGetBooksssss(bookid) {
         localStorage.setItem('user_post_id', bookid);
         // navigate('/getbook')
     }
@@ -88,11 +96,24 @@ function Media(props) {
                         <CardBody className='px-3 py-4 flex  flex-col relative '>
                             {item ? (
                                 <div className="w-100 h-[200px] flex items-center justify-center">
-                                    <img
-                                        src={`${apiUrl}get_img/${item.img.id}`}
-                                        alt={item.book.title}
-                                        className="h-[200px]"
-                                    />
+                                    <motion.div
+                                        initial={false}
+                                        animate={
+                                            isLoaded && isInView
+                                                ? { WebkitMaskImage: visibleMask, maskImage: visibleMask }
+                                                : { WebkitMaskImage: hiddenMask, maskImage: hiddenMask }
+                                        }
+                                        transition={{ duration: `1.${index}`, delay: 1}}
+                                        viewport={{ once: true }}
+                                        onViewportEnter={() => setIsInView(true)}
+                                    >
+                                        <img
+                                            src={`${apiUrl}get_img/${item.img.id}`}
+                                            alt={item.book.title}
+                                            className="h-[200px]"
+                                            onLoad={() => setIsLoaded(true)}
+                                        />
+                                    </motion.div>
                                 </div>
                             ) : (
                                 <div className="w-[100%]">
