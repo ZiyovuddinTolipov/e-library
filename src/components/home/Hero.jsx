@@ -33,7 +33,6 @@ const Hero = () => {
                         </ul>
                     </nav>
                 </header>
-
                 <div className="mx-auto  px-4 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 relative bottom-0">
                     <div className="flex flex-col items-center justify-between lg:flex-row ">
                         <div className="">
