@@ -90,5 +90,19 @@ header {
             font-size: 22px;
         }
         text-transform: uppercase;
+        @keyframes ball {
+            0% {
+                background-color: rgba( 0,0,0, 0.5);
+                top: 0;
+            }
+            50% {
+                background-color: rgba( 0,0,0, 1);
+                top: 80px;
+            }
+            100% {
+                background-color: rgba( 0,0,0, 0);
+                top: 0;
+            }
+        }
     }
 }
